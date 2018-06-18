@@ -37,13 +37,13 @@ public class PentominoTiling {
     }
 
     static void shuffleShapes() {
-        int n = shapes.length;
+        int n = Tiles.shapes.length;
         while (n > 1) {
             int r = rand.nextInt(n--);
 
-            int[][] tmp = shapes[r];
-            shapes[r] = shapes[n];
-            shapes[n] = tmp;
+            int[][] tmp = Tiles.shapes[r];
+            Tiles.shapes[r] = Tiles.shapes[n];
+            Tiles.shapes[n] = tmp;
 
             char tmpSymbol = symbols[r];
             symbols[r] = symbols[n];
@@ -82,7 +82,7 @@ public class PentominoTiling {
     }
 
     static boolean solve(int pos, int numPlaced) {
-        if (numPlaced == shapes.length)
+        if (numPlaced == Tiles.shapes.length)
             return true;
 
         int row = pos / nCols;
@@ -91,9 +91,9 @@ public class PentominoTiling {
         if (grid[row][col] != -1)
             return solve(pos + 1, numPlaced);
 
-        for (int i = 0; i < shapes.length; i++) {
+        for (int i = 0; i < Tiles.shapes.length; i++) {
             if (!placed[i]) {
-                for (int[] orientation : shapes[i]) {
+                for (int[] orientation : Tiles.shapes[i]) {
 
                     if (!tryPlaceOrientation(orientation, row, col, i))
                         continue;
@@ -110,45 +110,4 @@ public class PentominoTiling {
         }
         return false;
     }
-
-    static final int[][] F = {{1, -1, 1, 0, 1, 1, 2, 1}, {0, 1, 1, -1, 1, 0, 2, 0},
-    {1, 0, 1, 1, 1, 2, 2, 1}, {1, 0, 1, 1, 2, -1, 2, 0}, {1, -2, 1, -1, 1, 0, 2, -1},
-    {0, 1, 1, 1, 1, 2, 2, 1}, {1, -1, 1, 0, 1, 1, 2, -1}, {1, -1, 1, 0, 2, 0, 2, 1}};
-
-    static final int[][] I = {{0, 1, 0, 2, 0, 3, 0, 4}, {1, 0, 2, 0, 3, 0, 4, 0}};
-
-    static final int[][] L = {{1, 0, 1, 1, 1, 2, 1, 3}, {1, 0, 2, 0, 3, -1, 3, 0},
-    {0, 1, 0, 2, 0, 3, 1, 3}, {0, 1, 1, 0, 2, 0, 3, 0}, {0, 1, 1, 1, 2, 1, 3, 1},
-    {0, 1, 0, 2, 0, 3, 1, 0}, {1, 0, 2, 0, 3, 0, 3, 1}, {1, -3, 1, -2, 1, -1, 1, 0}};
-
-    static final int[][] N = {{0, 1, 1, -2, 1, -1, 1, 0}, {1, 0, 1, 1, 2, 1, 3, 1},
-    {0, 1, 0, 2, 1, -1, 1, 0}, {1, 0, 2, 0, 2, 1, 3, 1}, {0, 1, 1, 1, 1, 2, 1, 3},
-    {1, 0, 2, -1, 2, 0, 3, -1}, {0, 1, 0, 2, 1, 2, 1, 3}, {1, -1, 1, 0, 2, -1, 3, -1}};
-
-    static final int[][] P = {{0, 1, 1, 0, 1, 1, 2, 1}, {0, 1, 0, 2, 1, 0, 1, 1},
-    {1, 0, 1, 1, 2, 0, 2, 1}, {0, 1, 1, -1, 1, 0, 1, 1}, {0, 1, 1, 0, 1, 1, 1, 2},
-    {1, -1, 1, 0, 2, -1, 2, 0}, {0, 1, 0, 2, 1, 1, 1, 2}, {0, 1, 1, 0, 1, 1, 2, 0}};
-
-    static final int[][] T = {{0, 1, 0, 2, 1, 1, 2, 1}, {1, -2, 1, -1, 1, 0, 2, 0},
-    {1, 0, 2, -1, 2, 0, 2, 1}, {1, 0, 1, 1, 1, 2, 2, 0}};
-
-    static final int[][] U = {{0, 1, 0, 2, 1, 0, 1, 2}, {0, 1, 1, 1, 2, 0, 2, 1},
-    {0, 2, 1, 0, 1, 1, 1, 2}, {0, 1, 1, 0, 2, 0, 2, 1}};
-
-    static final int[][] V = {{1, 0, 2, 0, 2, 1, 2, 2}, {0, 1, 0, 2, 1, 0, 2, 0},
-    {1, 0, 2, -2, 2, -1, 2, 0}, {0, 1, 0, 2, 1, 2, 2, 2}};
-
-    static final int[][] W = {{1, 0, 1, 1, 2, 1, 2, 2}, {1, -1, 1, 0, 2, -2, 2, -1},
-    {0, 1, 1, 1, 1, 2, 2, 2}, {0, 1, 1, -1, 1, 0, 2, -1}};
-
-    static final int[][] X = {{1, -1, 1, 0, 1, 1, 2, 0}};
-
-    static final int[][] Y = {{1, -2, 1, -1, 1, 0, 1, 1}, {1, -1, 1, 0, 2, 0, 3, 0},
-    {0, 1, 0, 2, 0, 3, 1, 1}, {1, 0, 2, 0, 2, 1, 3, 0}, {0, 1, 0, 2, 0, 3, 1, 2},
-    {1, 0, 1, 1, 2, 0, 3, 0}, {1, -1, 1, 0, 1, 1, 1, 2}, {1, 0, 2, -1, 2, 0, 3, 0}};
-
-    static final int[][] Z = {{0, 1, 1, 0, 2, -1, 2, 0}, {1, 0, 1, 1, 1, 2, 2, 2},
-    {0, 1, 1, 1, 2, 1, 2, 2}, {1, -2, 1, -1, 1, 0, 2, -2}};
-
-    static final int[][][] shapes = {F, I, L, N, P, T, U, V, W, X, Y, Z};
 }
